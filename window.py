@@ -38,7 +38,6 @@ class Window(ctk.CTk):
             padx=40,
             pady=40
         )
-
         pages_classes = (
             SportPage(self.page_container, self.read_weight),
             GuidePage(self.page_container),
@@ -57,7 +56,7 @@ class Window(ctk.CTk):
         for page_name, page_class in zip(pages.pages_names.values(), pages_classes):
             if page_class:
                 self.pages[page_name] = page_class
-
+    #Метод выбора страницы
     def select_page(self, page_name):
         if self.selected_page.page_name == 'user':
             self.selected_page.leave(self.update_data)
@@ -77,9 +76,8 @@ class Window(ctk.CTk):
             self.selected_page = page
         else:
             self.selected_page = self.welcome_page
-
+    #Метод для чтения данных
     def read_data(self, page):
-        # data_path = resource_path('data.json')
         data_path = 'data.json'
         if not pathlib.Path(data_path).exists():
             self.create_data()
@@ -89,15 +87,14 @@ class Window(ctk.CTk):
             for entry_name, entry_var in page.vars.items():
                 if data.get(entry_name, None):
                     entry_var.insert(0, data[entry_name])
-
+    #Метод для чтения созданной json файла
     def read_weight(self):
-        # data_path = resource_path('data.json')
         data_path = 'data.json'
         with open(data_path, 'r', encoding='utf-8') as data_file:
             data = json.load(data_file)
 
         return data['weight']
-
+    #Обновление файла json при изменении
     def update_data(self, page):
         # data_path = resource_path('data.json')
         data_path = 'data.json'
@@ -111,7 +108,7 @@ class Window(ctk.CTk):
 
         with open(data_path, 'w', encoding='utf-8') as data_file:
             json.dump(data, data_file)
-
+    #Созданиее базы данных при переходе в раздел Профиль
     def create_data(self):
         # data_path = resource_path('data.json')
         data_path = 'data.json'
