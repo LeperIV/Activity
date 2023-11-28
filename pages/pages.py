@@ -6,11 +6,9 @@ from PIL import Image
 import sys
 import os
 
-
+# Функция которая позволяет найти путь к файлам внутри единого exe файла
 def resource_path(relative_path):
-    """ Get the absolute path to the resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -18,7 +16,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-
+#Класс контейнера для страницы куда будут помещться все страницы
 class PageContainer(ctk.CTkFrame):
     def __init__(self, master, page_select_callback):
         super().__init__(master)
@@ -31,7 +29,7 @@ class PageContainer(ctk.CTkFrame):
         self.page_buttons = ctk.CTkSegmentedButton(
             self,
             values=[name.title() for name in pages_names],
-            font=('Helvetica', 37),
+            font=('Arial', 37),
             height=60,
             variable=self.page_button_var,
             command=self.select_page
@@ -40,24 +38,24 @@ class PageContainer(ctk.CTkFrame):
             side=ctk.BOTTOM,
             pady=(40, 0)
         )
-
+    #Метод для выбора страницы 
     def select_page(self, *args):
         selected_page_name = self.page_button_var.get()
         self.page_select_callback(pages_names[selected_page_name.lower()])
 
-
+#Класс для создания начального окна
 class WelcomePage(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.page_name = 'welcome'
         self.configure(fg_color='#242424')
         self.show_widgets()
-
+    #Текст и шрифт 
     def show_widgets(self):
         self.welcome_label = ctk.CTkLabel(
             self,
             text='Добро пожаловать',
-            font=('Helvetica', 50)
+            font=('Arial', 50)
         )
         self.welcome_label.place(
             anchor=ctk.CENTER,
@@ -67,7 +65,7 @@ class WelcomePage(ctk.CTkFrame):
         self.welcome_text = ctk.CTkLabel(
             self,
             text='Выберите пункт меню',
-            font=('Helvetica', 27)
+            font=('Arial', 27)
         )
         self.welcome_text.place(
             anchor=ctk.CENTER,
@@ -96,7 +94,7 @@ class UserPage(ctk.CTkFrame):
 
         width = 300
         placeholder_color = '#6b6b6b'
-        font = ('Helvetica', 30)
+        font = ('Arial', 30)
 
         self.name = ctk.CTkEntry(
             self.form,
@@ -143,7 +141,7 @@ class UserPage(ctk.CTkFrame):
 
         self.your_bmi = ctk.CTkLabel(
             self.form,
-            font=('Helvetica', 30),
+            font=('Arial', 30),
             text='Ваш ИМТ'
         )
         self.your_bmi.pack(
@@ -151,7 +149,7 @@ class UserPage(ctk.CTkFrame):
         )
         self.bmi = ctk.CTkLabel(
             self.form,
-            font=('Helvetica', 40),
+            font=('Arial', 40),
             textvariable=self.bmi_var,
             wraplength=350
         )
@@ -267,7 +265,7 @@ class SportPage(ctk.CTkFrame):
 
         self.question = ctk.CTkLabel(
             self.form_frame,
-            font=('Helvetica', 20),
+            font=('Arial', 20),
             text=self.sport_questions[self.selected_sport]
         )
         self.question.place(
@@ -279,7 +277,7 @@ class SportPage(ctk.CTkFrame):
         self.distance_entry = ctk.CTkEntry(
             self.form_frame,
             placeholder_text='Дистанция',
-            font=('Helvetica', 30),
+            font=('Arial', 30),
             width=300
         )
         self.distance_entry.place(
@@ -294,7 +292,7 @@ class SportPage(ctk.CTkFrame):
 
         self.meteres = ctk.CTkLabel(
             self.form_frame,
-            font=('Helvetica', 30),
+            font=('Arial', 30),
             text='метров'
         )
         self.meteres.place(
@@ -305,7 +303,7 @@ class SportPage(ctk.CTkFrame):
 
         self.calculate_button = ctk.CTkButton(
             self.form_frame,
-            font=('Helvetica', 25),
+            font=('Arial', 25),
             text='Посчитать калории',
             command=self.calculate_calories
         )
@@ -317,7 +315,7 @@ class SportPage(ctk.CTkFrame):
 
         self.calculated_calories = ctk.CTkLabel(
             self.form_frame,
-            font=('Helvetica', 30),
+            font=('Arial', 30),
             text=''
         )
         self.calculated_calories.place(
@@ -335,7 +333,7 @@ class SportPage(ctk.CTkFrame):
         self.left_button = ctk.CTkButton(
             self.buttons_frame,
             width=50,
-            font=('Helvetica', 40),
+            font=('Arial', 40),
             text='◀',
             command=self.cycle_left
         )
@@ -346,7 +344,7 @@ class SportPage(ctk.CTkFrame):
 
         self.sport_name = ctk.CTkLabel(
             self.buttons_frame,
-            font=('Helvetica', 40)
+            font=('Arial', 40)
         )
         self.sport_name.pack(
             side=ctk.LEFT
@@ -355,7 +353,7 @@ class SportPage(ctk.CTkFrame):
         self.right_button = ctk.CTkButton(
             self.buttons_frame,
             width=50,
-            font=('Helvetica', 40),
+            font=('Arial', 40),
             text='▶',
             command=self.cycle_right
         )
@@ -443,7 +441,7 @@ class GuidePage(ctk.CTkFrame):
         self.text = ctk.CTkTextbox(
             self.text_frame,
             fg_color='#242424',
-            font=('Helvetica', 17),
+            font=('Arial', 17),
             wrap=ctk.WORD
         )
         self.text.insert(0.0, sport_text.texts[self.selected_sport])
@@ -463,7 +461,7 @@ class GuidePage(ctk.CTkFrame):
         self.left_button = ctk.CTkButton(
             self.buttons_frame,
             width=50,
-            font=('Helvetica', 40),
+            font=('Arial', 40),
             text='◀',
             command=self.cycle_left
         )
@@ -474,7 +472,7 @@ class GuidePage(ctk.CTkFrame):
 
         self.sport_name = ctk.CTkLabel(
             self.buttons_frame,
-            font=('Helvetica', 40)
+            font=('Arial', 40)
         )
         self.sport_name.pack(
             side=ctk.LEFT
@@ -483,7 +481,7 @@ class GuidePage(ctk.CTkFrame):
         self.right_button = ctk.CTkButton(
             self.buttons_frame,
             width=50,
-            font=('Helvetica', 40),
+            font=('Arial', 40),
             text='▶',
             command=self.cycle_right
         )
