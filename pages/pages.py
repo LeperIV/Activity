@@ -50,7 +50,7 @@ class WelcomePage(ctk.CTkFrame):
         self.page_name = 'welcome'
         self.configure(fg_color='#242424')
         self.show_widgets()
-    #Текст и шрифт 
+    #Текст и шрифт внутри окна
     def show_widgets(self):
         self.welcome_label = ctk.CTkLabel(
             self,
@@ -73,14 +73,14 @@ class WelcomePage(ctk.CTkFrame):
             rely=0.525
         )
 
-
+#Класс для раздела пользователь в котором будет имя фамилия рост вес 
 class UserPage(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.page_name = 'user'
         self.configure(fg_color='#242424')
         self.show_widgets()
-
+    #Метод для показа видежетов
     def show_widgets(self):
         self.form = ctk.CTkFrame(
             self,
@@ -124,7 +124,7 @@ class UserPage(ctk.CTkFrame):
             width=width,
             font=font
         )
-
+        #Пакуем все вызванные виджеты через переборку
         for widget in (self.name, self.surname, self.height, self.weight):
             widget.pack(
                 pady=(40, 0)
@@ -156,12 +156,12 @@ class UserPage(ctk.CTkFrame):
         self.bmi.pack(
             pady=(10, 0)
         )
-
+    #Выйти со страницы
     def leave(self, callback):
         callback(self)
         for var in self.vars.values():
             var.delete(0, ctk.END)
-
+    #Войти в страницу пользователя 
     def enter(self, callback):
         callback(self)
         self.get_bmi(self.weight.get(), self.height.get())
@@ -193,7 +193,7 @@ class UserPage(ctk.CTkFrame):
                     text_color=bmi_colors[i]
                 )
 
-
+#Создания класса для раздела Спорт
 class SportPage(ctk.CTkFrame):
     def __init__(self, master, callback):
         super().__init__(master)
@@ -201,9 +201,9 @@ class SportPage(ctk.CTkFrame):
         self.page_name = 'sport'
         self.configure(fg_color='#242424')
         self.show_widgets()
-
+    #Для показа Виджетов для Спорта
     def show_widgets(self):
-
+        #Импортируем из папки image с помощью resourse_path 
         jogging = Image.open(resource_path('images/jogging.jpg'))
         cycling = Image.open(resource_path('images/cycling.jpg'))
         brisk_walking = Image.open(resource_path('images/brisk_walking.jpg'))
@@ -213,9 +213,11 @@ class SportPage(ctk.CTkFrame):
         cycling_ratio = cycling.width / cycling.height
         brisk_walking_ratio = brisk_walking.width / brisk_walking.height
         swimming_ratio = swimming.width / swimming.height
-
+        
+        #Размер фотки 
         image_height = 1100
 
+        #Подсчет для каждого вида спорта
         self.sports = ('Бег', 'Езда на велосипеде', 'Быстрая ходьба', 'Плавание')
         self.sport_images = (
             ctk.CTkImage(jogging, size=(int(image_height * jogging_ratio), image_height)),
@@ -365,7 +367,7 @@ class SportPage(ctk.CTkFrame):
         self.sport_name.configure(
             text=self.sports[self.selected_sport]
         )
-
+    #Кнопка для перехода влево при этом происходит -1
     def cycle_left(self, *args):
         if not self.selected_sport:
             self.selected_sport = len(self.sports) - 1
@@ -381,7 +383,7 @@ class SportPage(ctk.CTkFrame):
         self.question.configure(
             text=self.sport_questions[self.selected_sport]
         )
-
+    #Кнопка для перехода вправо при этом происходит +1
     def cycle_right(self, *args):
         if self.selected_sport == len(self.sports) - 1:
             self.selected_sport = 0
@@ -400,28 +402,29 @@ class SportPage(ctk.CTkFrame):
         self.question.configure(
             text=self.sport_questions[self.selected_sport]
         )
-
+    #Для каждого вида спорта идет свой подсчет
     def calculate_calories(self, *args):
         coeffs = (0.9, 0.5, 0.7, 0.5)
 
         distance = self.distance_entry.get()
         weight = self.read_callback()
+        #Задаем переменную с формулой
         calories = coeffs[self.selected_sport] * int(weight) * (int(distance) / 1000)
-
+        #показ калорий
         string = f'Соженно калорий: {int(calories)}'
 
         self.calculated_calories.configure(
             text=string
         )
 
-
+#Класс раздела Руководство
 class GuidePage(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.page_name = 'guide'
         self.configure(fg_color='#242424')
         self.show_widgets()
-
+    #Создание метода для показа виджетов в окне
     def show_widgets(self):
         self.sports = ('Бег', 'Езда на велосипеде', 'Быстрая ходьба', 'Плавание')
         self.selected_sport = 0
@@ -493,7 +496,7 @@ class GuidePage(ctk.CTkFrame):
         self.sport_name.configure(
             text=self.sports[self.selected_sport]
         )
-
+    #Сменить текст при смене физической активности 
     def switch_text(self):
         if self.text_state == ctk.DISABLED:
             self.text_state = ctk.NORMAL
@@ -503,7 +506,7 @@ class GuidePage(ctk.CTkFrame):
         self.text.configure(
             state=self.text_state
         )
-
+    #Создание кнопки влево для перехода на след окно
     def cycle_left(self, *args):
         self.switch_text()
         self.text.delete(0.0, ctk.END)
@@ -519,7 +522,7 @@ class GuidePage(ctk.CTkFrame):
 
         self.text.insert(0.0, sport_text.texts[self.selected_sport])
         self.switch_text()
-
+    #сокздание кнопки вправо
     def cycle_right(self, *args):
         self.switch_text()
         self.text.delete(0.0, ctk.END)
