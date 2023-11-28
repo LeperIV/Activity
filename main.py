@@ -8,7 +8,7 @@ class App:
     def run(self):
         self.window.launch()
 
-
+#Точка входа в приложение
 if __name__ == '__main__':
     app = App()
     app.run()
