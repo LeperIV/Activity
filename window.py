@@ -38,6 +38,7 @@ class Window(ctk.CTk):
             padx=40,
             pady=40
         )
+        #Объекты страниц
         pages_classes = (
             SportPage(self.page_container, self.read_weight),
             GuidePage(self.page_container),
@@ -96,7 +97,6 @@ class Window(ctk.CTk):
         return data['weight']
     #Обновление файла json при изменении
     def update_data(self, page):
-        # data_path = resource_path('data.json')
         data_path = 'data.json'
         if not pathlib.Path(data_path).exists():
             self.create_data()
@@ -110,7 +110,6 @@ class Window(ctk.CTk):
             json.dump(data, data_file)
     #Созданиее базы данных при переходе в раздел Профиль
     def create_data(self):
-        # data_path = resource_path('data.json')
         data_path = 'data.json'
         with open(data_path, 'w', encoding='utf-8') as data_file:
             json.dump({}, data_file)
